@@ -10,7 +10,7 @@ click = "*"
 colorclass = "*"
 sphinx = "*"
 sphinx_rtd_theme = "*"
-typing = {version = "*", markers="python_version >= '3.0' and python_version < '3.5'"}
+typing = {version = "*", markers = "python_version >= '3.0' and python_version < '3.5'"}
 
 [requires]
 python_version = "3"
