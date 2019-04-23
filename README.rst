@@ -29,6 +29,12 @@ Changelog
 
 This project adheres to `Semantic Versioning <http://semver.org/>`_.
 
+1.0.1 - 2019-04-23
+------------------
+
+Changes
+    * Update sphinx version from 1.8.4 to 1.8.5
+
 1.0.0 - 2018-12-08
 ------------------
 
