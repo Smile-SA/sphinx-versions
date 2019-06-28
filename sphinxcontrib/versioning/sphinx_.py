@@ -52,9 +52,10 @@ class EventHandlers(object):
         """
         # Add this extension's _templates directory to Sphinx.
         templates_dir = os.path.join(os.path.dirname(__file__), '_templates')
-        app.builder.templates.pathchain.insert(0, templates_dir)
-        app.builder.templates.loaders.insert(0, SphinxFileSystemLoader(templates_dir))
-        app.builder.templates.templatepathlen += 1
+        if app.builder.name != "latex":
+            app.builder.templates.pathchain.insert(0, templates_dir)
+            app.builder.templates.loaders.insert(0, SphinxFileSystemLoader(templates_dir))
+            app.builder.templates.templatepathlen += 1
 
         # Add versions.html to sidebar.
         if '**' not in app.config.html_sidebars:
