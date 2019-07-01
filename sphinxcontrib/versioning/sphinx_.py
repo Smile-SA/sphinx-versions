@@ -5,9 +5,10 @@ import logging
 import multiprocessing
 import os
 import sys
+from shutil import copyfile
 
 from sphinx import application, locale
-from sphinx.cmd.build import build_main
+from sphinx.cmd.build import build_main, make_main
 from sphinx.builders.html import StandaloneHTMLBuilder
 from sphinx.config import Config as SphinxConfig
 from sphinx.errors import SphinxError
@@ -205,7 +206,20 @@ def _build(argv, config, versions, current_name, is_root):
     if config.overflow:
         argv += config.overflow
 
+    # Build pdf if required
+    if config.pdf_file:
+        args = list(argv)
+        args.insert(0,"latexpdf")   # Builder type
+        args.insert(0,"ignore")     # Will be ignored
+        args = map(unicode, args)
+        result = make_main(args)
+        # Copy to _static dir of src
+        copyfile(argv[1] + unicode("/latex/" + config.pdf_file), argv[0] + unicode("/_static/" + config.pdf_file))
+
     # Build.
+    args = list(argv)
+    args[1] += u"/html"
+    argv = tuple(args)
     result = build_main(argv)
     if result != 0:
         raise SphinxError
