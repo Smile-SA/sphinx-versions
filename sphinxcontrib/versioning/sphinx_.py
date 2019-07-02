@@ -217,9 +217,6 @@ def _build(argv, config, versions, current_name, is_root):
         copyfile(argv[1] + unicode("/latex/" + config.pdf_file), argv[0] + unicode("/_static/" + config.pdf_file))
 
     # Build.
-    args = list(argv)
-    args[1] += u"/html"
-    argv = tuple(args)
     result = build_main(argv)
     if result != 0:
         raise SphinxError
