@@ -281,6 +281,7 @@ def build(config, rel_source, destination, **options):
         sort=config.sort,
         priority=config.priority,
         invert=config.invert,
+        pdf_file=config.pdf_file,
     )
 
     # Get root ref.

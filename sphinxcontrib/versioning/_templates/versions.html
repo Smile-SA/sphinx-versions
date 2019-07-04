@@ -9,7 +9,7 @@
         {%- if versions.tags %}
         <dl>
             <dt>Tags</dt>
-            {%- for name, url in versions.tags %}
+            {%- for name, url, pdf_url in versions.tags %}
             <dd><a href="{{ url }}">{{ name }}</a></dd>
             {%- endfor %}
         </dl>
@@ -17,8 +17,19 @@
         {%- if versions.branches %}
         <dl>
             <dt>Branches</dt>
-            {%- for name, url in versions.branches %}
+            {%- for name, url, pdf_url in versions.branches %}
             <dd><a href="{{ url }}">{{ name }}</a></dd>
+            {%- endfor %}
+        </dl>
+        {%- endif %}
+        {%- if versions.pdf_file %}
+        <dl>
+            <dt>PDF</dt>
+            {%- for name, url, pdf_url in versions.tags %}
+            <dd><a href="{{ pdf_url }}" download>{{ name }}</a></dd>
+            {%- endfor %}
+            {%- for name, url, pdf_url in versions.branches %}
+            <dd><a href="{{ pdf_url }}" download>{{ name }}</a></dd>
             {%- endfor %}
         </dl>
         {%- endif %}
@@ -37,7 +48,7 @@
           {%- if versions.tags %}
           <p>tags</p>
           <div class="dropdown-content">
-            {%- for name, url in versions.tags %}
+            {%- for name, url, pdf_url in versions.tags %}
               <a href="{{ url }}">{{ name }}</a>
             {%- endfor %}
           </div>
@@ -45,7 +56,7 @@
           {%- if versions.branches %}
           <p>branches</p>
           <div class="dropdown-content">
-            {%- for name, url in versions.branches %}
+            {%- for name, url, pdf_url in versions.branches %}
               <a href="{{ url }}">{{ name }}</a>
             {%- endfor %}
           </div>
