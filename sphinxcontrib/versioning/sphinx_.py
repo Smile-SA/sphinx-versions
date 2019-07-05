@@ -206,6 +206,12 @@ def _build(argv, config, versions, current_name, is_root):
     if config.overflow:
         argv += config.overflow
 
+    # Build.
+    result = build_main(argv)
+
+    if result != 0:
+        raise SphinxError
+
     # Build pdf if required
     if config.pdf_file:
         args = list(argv)
@@ -218,8 +224,6 @@ def _build(argv, config, versions, current_name, is_root):
         copyfile( latexDir + config.pdf_file, argv[0] + unicode("/_static/" + config.pdf_file))
         rmtree(latexDir)
 
-    # Build.
-    result = build_main(argv)
     if result != 0:
         raise SphinxError
 
