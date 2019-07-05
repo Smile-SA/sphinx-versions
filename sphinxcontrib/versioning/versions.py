@@ -197,12 +197,12 @@ class Versions(object):
     @property
     def branches(self):
         """Return list of (name and urls, pdf_urls) only branches."""
-        return [(r['name'], self.vpathto(r['name']), os.path.dirname(self.vpathto(r['name'])) + "/_static/" + self.pdf_file) for r in self.remotes if r['kind'] == 'heads']
+        return [(r['name'], self.vpathto(r['name']), self.pathtopdf(r['name'])) for r in self.remotes if r['kind'] == 'heads']
 
     @property
     def tags(self):
         """Return list of (name and urls, pdf_urls) only tags."""
-        return [(r['name'], self.vpathto(r['name']), os.path.dirname(self.vpathto(r['name'])) + "/_static/" + self.pdf_file) for r in self.remotes if r['kind'] == 'tags']
+        return [(r['name'], self.vpathto(r['name']), self.pathtopdf(r['name'])) for r in self.remotes if r['kind'] == 'tags']
 
     def vhasdoc(self, other_version):
         """Return True if the other version has the current document. Like Sphinx's hasdoc().
@@ -241,3 +241,17 @@ class Versions(object):
         components += [other_root_dir] if is_root else ['..', other_root_dir]
         components += [pagename if self.vhasdoc(other_version) else other_remote['master_doc']]
         return '{}.html'.format(__import__('posixpath').join(*components))
+
+    def pathtopdf(self, other_version):
+        is_root = self.context['scv_is_root']
+        pagename = self.context['pagename']
+        # if self.context['current_version'] == other_version and not is_root:
+        #     return '{}.html'.format(pagename.split('/')[-1])
+
+        other_remote = self[other_version]
+        other_root_dir = other_remote['root_dir']
+        components = ['..'] * pagename.count('/')
+        components += [other_root_dir] if is_root else ['..', other_root_dir]
+        components += ["_static"]
+        components += [os.path.splitext(self.pdf_file)[0]]
+        return '{}.pdf'.format(__import__('posixpath').join(*components))

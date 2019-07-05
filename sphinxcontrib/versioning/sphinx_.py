@@ -5,7 +5,7 @@ import logging
 import multiprocessing
 import os
 import sys
-from shutil import copyfile
+from shutil import copyfile, rmtree
 
 from sphinx import application, locale
 from sphinx.cmd.build import build_main, make_main
@@ -214,7 +214,9 @@ def _build(argv, config, versions, current_name, is_root):
         args = map(unicode, args)
         result = make_main(args)
         # Copy to _static dir of src
-        copyfile(argv[1] + unicode("/latex/" + config.pdf_file), argv[0] + unicode("/_static/" + config.pdf_file))
+        latexDir = argv[1] + unicode("/latex/");
+        copyfile( latexDir + config.pdf_file, argv[0] + unicode("/_static/" + config.pdf_file))
+        rmtree(latexDir)
 
     # Build.
     result = build_main(argv)
