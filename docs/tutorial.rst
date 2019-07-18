@@ -37,7 +37,7 @@ and dirty you can do the following:
 .. _build-all-versions:
 
 Build All Versions
-------------------
+==================
 
 Now that you've got docs pushed to origin and they build fine with ``sphinx-build`` let's try building them with
 sphinx-versions:
@@ -59,4 +59,6 @@ convenience:
 
 The command should have worked and your docs should be available in `docs/_build/html/index.html` with a "Versions"
 section in the sidebar.
+
+.. note:: You can add a `-P pdf-file-name.pdf` option to also generate a pdf of all versions of your documentation
 
