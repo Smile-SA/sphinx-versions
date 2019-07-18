@@ -217,7 +217,6 @@ def _build(argv, config, versions, current_name, is_root):
         args = list(argv)
         args.insert(0,"latexpdf")   # Builder type
         args.insert(0,"ignore")     # Will be ignored
-        args = map(unicode, args)
         result = make_main(args)
         # Copy to _static dir of src
         latexDir = argv[1] + unicode("/latex/");
