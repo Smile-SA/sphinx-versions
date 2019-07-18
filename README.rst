@@ -29,6 +29,13 @@ Changelog
 
 This project adheres to `Semantic Versioning <http://semver.org/>`_.
 
+1.1.0 - 2019-07-18
+------------------
+
+Changes
+    * Add `-P pdf-file-name.pdf` option, thanks to `Anybotics fork <https://github.com/ANYbotics/sphinx-versions>`
+
+
 1.0.1 - 2019-04-23
 ------------------
 
