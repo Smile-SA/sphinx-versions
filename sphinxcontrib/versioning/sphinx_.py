@@ -220,7 +220,7 @@ def _build(argv, config, versions, current_name, is_root):
         result = make_main(args)
         # Copy to _static dir of src
         latexDir = argv[1] + "/latex/";
-        copyfile( latexDir + config.pdf_file, argv[0] + "/_static/" + config.pdf_file)
+        copyfile( latexDir + config.pdf_file, argv[1] + "/_static/" + config.pdf_file)
         rmtree(latexDir)
 
     if result != 0:
