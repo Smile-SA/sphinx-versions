@@ -29,6 +29,12 @@ Changelog
 
 This project adheres to `Semantic Versioning <http://semver.org/>`_.
 
+1.1.1 - 2019-07-18
+------------------
+
+Changes
+    * Removes compatibility with Python 2 (and make it work properly on Pyhton 3 : removing a call to `unicode` function)
+
 1.1.0 - 2019-07-18
 ------------------
 
