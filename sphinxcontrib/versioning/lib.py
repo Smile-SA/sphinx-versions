@@ -46,6 +46,9 @@ class Config(object):
         # Integers.
         self.verbose = 0
 
+        # Custom.
+        self.pdf_file = None # Name of the pdf
+
     def __contains__(self, item):
         """Implement 'key in Config'.
 

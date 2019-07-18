@@ -203,7 +203,8 @@ def build_options(func):
                         help='Whitelist branches that match the pattern. Can be specified more than once.')(func)
     func = click.option('-W', '--whitelist-tags', multiple=True,
                         help='Whitelist tags that match the pattern. Can be specified more than once.')(func)
-
+    func = click.option('-P', '--pdf-file',
+                        help='Name of the generated PDF file.')(func)
     return func
 
 
@@ -280,6 +281,7 @@ def build(config, rel_source, destination, **options):
         sort=config.sort,
         priority=config.priority,
         invert=config.invert,
+        pdf_file=config.pdf_file,
     )
 
     # Get root ref.
@@ -316,4 +318,3 @@ def build(config, rel_source, destination, **options):
 
     # Store versions in state for push().
     config['versions'] = versions
-

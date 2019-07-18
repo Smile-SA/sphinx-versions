@@ -5,9 +5,10 @@ import logging
 import multiprocessing
 import os
 import sys
+from shutil import copyfile, rmtree
 
 from sphinx import application, locale
-from sphinx.cmd.build import build_main
+from sphinx.cmd.build import build_main, make_main
 from sphinx.builders.html import StandaloneHTMLBuilder
 from sphinx.config import Config as SphinxConfig
 from sphinx.errors import SphinxError
@@ -52,9 +53,10 @@ class EventHandlers(object):
         """
         # Add this extension's _templates directory to Sphinx.
         templates_dir = os.path.join(os.path.dirname(__file__), '_templates')
-        app.builder.templates.pathchain.insert(0, templates_dir)
-        app.builder.templates.loaders.insert(0, SphinxFileSystemLoader(templates_dir))
-        app.builder.templates.templatepathlen += 1
+        if app.builder.name != "latex":
+            app.builder.templates.pathchain.insert(0, templates_dir)
+            app.builder.templates.loaders.insert(0, SphinxFileSystemLoader(templates_dir))
+            app.builder.templates.templatepathlen += 1
 
         # Add versions.html to sidebar.
         if '**' not in app.config.html_sidebars:
@@ -206,6 +208,22 @@ def _build(argv, config, versions, current_name, is_root):
 
     # Build.
     result = build_main(argv)
+
+    if result != 0:
+        raise SphinxError
+
+    # Build pdf if required
+    if config.pdf_file:
+        args = list(argv)
+        args.insert(0,"latexpdf")   # Builder type
+        args.insert(0,"ignore")     # Will be ignored
+        args = map(unicode, args)
+        result = make_main(args)
+        # Copy to _static dir of src
+        latexDir = argv[1] + unicode("/latex/");
+        copyfile( latexDir + config.pdf_file, argv[0] + unicode("/_static/" + config.pdf_file))
+        rmtree(latexDir)
+
     if result != 0:
         raise SphinxError
 

@@ -1,6 +1,7 @@
 """Collect and sort version strings."""
 
 import re
+import os
 
 RE_SEMVER = re.compile(r'^v?V?(\d+)(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?([\w.+-]*)$')
 
@@ -98,7 +99,7 @@ class Versions(object):
     :ivar dict recent_tag_remote: Most recently committed tag.
     """
 
-    def __init__(self, remotes, sort=None, priority=None, invert=False):
+    def __init__(self, remotes, sort=None, priority=None, invert=False, pdf_file=None):
         """Constructor.
 
         :param iter remotes: Output of routines.gather_git_info(). Converted to list of dicts as instance variable.
@@ -122,6 +123,7 @@ class Versions(object):
         self.recent_branch_remote = None
         self.recent_remote = None
         self.recent_tag_remote = None
+        self.pdf_file = pdf_file
 
         # Sort one or more times.
         if sort:
@@ -194,13 +196,13 @@ class Versions(object):
 
     @property
     def branches(self):
-        """Return list of (name and urls) only branches."""
-        return [(r['name'], self.vpathto(r['name'])) for r in self.remotes if r['kind'] == 'heads']
+        """Return list of (name and urls, pdf_urls) only branches."""
+        return [(r['name'], self.vpathto(r['name']), self.pathtopdf(r['name'])) for r in self.remotes if r['kind'] == 'heads']
 
     @property
     def tags(self):
-        """Return list of (name and urls) only tags."""
-        return [(r['name'], self.vpathto(r['name'])) for r in self.remotes if r['kind'] == 'tags']
+        """Return list of (name and urls, pdf_urls) only tags."""
+        return [(r['name'], self.vpathto(r['name']), self.pathtopdf(r['name'])) for r in self.remotes if r['kind'] == 'tags']
 
     def vhasdoc(self, other_version):
         """Return True if the other version has the current document. Like Sphinx's hasdoc().
@@ -239,3 +241,17 @@ class Versions(object):
         components += [other_root_dir] if is_root else ['..', other_root_dir]
         components += [pagename if self.vhasdoc(other_version) else other_remote['master_doc']]
         return '{}.html'.format(__import__('posixpath').join(*components))
+
+    def pathtopdf(self, other_version):
+        is_root = self.context['scv_is_root']
+        pagename = self.context['pagename']
+        # if self.context['current_version'] == other_version and not is_root:
+        #     return '{}.html'.format(pagename.split('/')[-1])
+
+        other_remote = self[other_version]
+        other_root_dir = other_remote['root_dir']
+        components = ['..'] * pagename.count('/')
+        components += [other_root_dir] if is_root else ['..', other_root_dir]
+        components += ["_static"]
+        components += [os.path.splitext(self.pdf_file)[0]]
+        return '{}.pdf'.format(__import__('posixpath').join(*components))
