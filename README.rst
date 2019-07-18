@@ -29,6 +29,12 @@ Changelog
 
 This project adheres to `Semantic Versioning <http://semver.org/>`_.
 
+1.1.3 - 2019-07-18
+------------------
+
+Changes
+    * Fix pdf copy target directory
+
 1.1.2 - 2019-07-18
 ------------------
 
