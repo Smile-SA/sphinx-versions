@@ -219,8 +219,8 @@ def _build(argv, config, versions, current_name, is_root):
         args.insert(0,"ignore")     # Will be ignored
         result = make_main(args)
         # Copy to _static dir of src
-        latexDir = argv[1] + unicode("/latex/");
-        copyfile( latexDir + config.pdf_file, argv[0] + unicode("/_static/" + config.pdf_file))
+        latexDir = argv[1] + "/latex/";
+        copyfile( latexDir + config.pdf_file, argv[0] + "/_static/" + config.pdf_file)
         rmtree(latexDir)
 
     if result != 0:
