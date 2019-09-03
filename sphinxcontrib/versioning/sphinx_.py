@@ -167,16 +167,6 @@ def setup(app):
     app.connect('html-page-context', EventHandlers.html_page_context)
     return dict(version=__version__)
 
-
-class ConfigInject(SphinxConfig):
-    """Inject this extension info self.extensions. Append after user's extensions."""
-
-    def __init__(self, *args):
-        """Constructor."""
-        super(ConfigInject, self).__init__(*args)
-        self.extensions.append('sphinxcontrib.versioning.sphinx_')
-
-
 def _build(argv, config, versions, current_name, is_root):
     """Build Sphinx docs via multiprocessing for isolation.
 
@@ -187,7 +177,13 @@ def _build(argv, config, versions, current_name, is_root):
     :param bool is_root: Is this build in the web root?
     """
     # Patch.
-    application.Config = ConfigInject
+    old_init = application.Config.__init__
+    def init_override(self, *args):
+        old_init(self, *args)
+        self.extensions.append('sphinxcontrib.versioning.sphinx_')
+
+    application.Config.__init__ = init_override
+
     if config.show_banner:
         EventHandlers.BANNER_GREATEST_TAG = config.banner_greatest_tag
         EventHandlers.BANNER_MAIN_VERSION = config.banner_main_ref
