@@ -243,6 +243,8 @@ class Versions(object):
         return '{}.html'.format(__import__('posixpath').join(*components))
 
     def pathtopdf(self, other_version):
+        if self.pdf_file is None:
+            return None
         is_root = self.context['scv_is_root']
         pagename = self.context['pagename']
         # if self.context['current_version'] == other_version and not is_root:
