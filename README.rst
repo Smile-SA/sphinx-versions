@@ -18,8 +18,8 @@ Most basic usage:
 
 .. code:: bash
 
-    sphinx-versions --help
-    sphinx-versions build --help
+    sphinx-versioning --help
+    sphinx-versioning build --help
 
 
 .. changelog-section-start
