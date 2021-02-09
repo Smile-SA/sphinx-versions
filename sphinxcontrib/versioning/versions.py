@@ -3,7 +3,8 @@
 import re
 import os
 
-RE_SEMVER = re.compile(r'^v?V?(\d+)(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?([\w.+-]*)$')
+RE_SEMVER = re.compile(
+    r'^v?V?(\d+)(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?([\w.+-]*)$')
 
 
 def semvers(names):
@@ -39,7 +40,8 @@ def semvers(names):
             exploded_semver.append(invalid_template[:])
             continue
         version_ints = [-int(i or 0) for i in match[:-1]]
-        ints_of_str = [ord(i) for i in match[-1]] + [0] * (max_len_str - len(match[-1]))
+        ints_of_str = [ord(i) for i in match[-1]] + [0] * \
+            (max_len_str - len(match[-1]))
         exploded_semver.append([0] + version_ints + ints_of_str)
 
     return exploded_semver
@@ -65,7 +67,8 @@ def multi_sort(remotes, sort):
     if 'alpha' in sort:
         alpha_max_len = max(len(r['name']) for r in remotes)
         for name in (r['name'] for r in remotes):
-            exploded_alpha.append([ord(i) for i in name] + [0] * (alpha_max_len - len(name)))
+            exploded_alpha.append(
+                [ord(i) for i in name] + [0] * (alpha_max_len - len(name)))
 
     # Parse versions if semver is in sort.
     if 'semver' in sort:
@@ -144,11 +147,14 @@ class Versions(object):
             remotes = self.remotes[:]
             multi_sort(remotes, ('time',))
             self.recent_remote = remotes[0]
-            self.recent_branch_remote = ([r for r in remotes if r['kind'] != 'tags'] or [None])[0]
-            self.recent_tag_remote = ([r for r in remotes if r['kind'] == 'tags'] or [None])[0]
+            self.recent_branch_remote = (
+                [r for r in remotes if r['kind'] != 'tags'] or [None])[0]
+            self.recent_tag_remote = (
+                [r for r in remotes if r['kind'] == 'tags'] or [None])[0]
             if self.recent_tag_remote:
                 multi_sort(remotes, ('semver',))
-                greatest_tag_remote = [r for r in remotes if r['kind'] == 'tags'][0]
+                greatest_tag_remote = [
+                    r for r in remotes if r['kind'] == 'tags'][0]
                 if RE_SEMVER.search(greatest_tag_remote['name']):
                     self.greatest_tag_remote = greatest_tag_remote
 
@@ -239,10 +245,13 @@ class Versions(object):
         other_root_dir = other_remote['root_dir']
         components = ['..'] * pagename.count('/')
         components += [other_root_dir] if is_root else ['..', other_root_dir]
-        components += [pagename if self.vhasdoc(other_version) else other_remote['master_doc']]
+        components += [pagename if self.vhasdoc(other_version)
+                       else other_remote['master_doc']]
         return '{}.html'.format(__import__('posixpath').join(*components))
 
     def pathtopdf(self, other_version):
+        if not self.pdf_file:
+            return "null"
         is_root = self.context['scv_is_root']
         pagename = self.context['pagename']
         # if self.context['current_version'] == other_version and not is_root:
