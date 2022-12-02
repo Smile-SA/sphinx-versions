@@ -253,5 +253,6 @@ class Versions(object):
         components = ['..'] * pagename.count('/')
         components += [other_root_dir] if is_root else ['..', other_root_dir]
         components += ["_static"]
-        components += [os.path.splitext(self.pdf_file)[0]]
+        if self.pdf_file:
+            components += [os.path.splitext(self.pdf_file)[0]]
         return '{}.pdf'.format(__import__('posixpath').join(*components))

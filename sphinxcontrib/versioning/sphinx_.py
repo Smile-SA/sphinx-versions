@@ -155,7 +155,7 @@ def setup(app):
 
     # Needed for banner.
     app.config.html_static_path.append(STATIC_DIR)
-    app.add_stylesheet('banner.css')
+    app.add_css_file('banner.css')
 
     # Tell Sphinx which config values can be set by the user.
     for name, default in Config():
