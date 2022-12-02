@@ -29,6 +29,14 @@ Changelog
 
 This project adheres to `Semantic Versioning <http://semver.org/>`_.
 
+1.2.0 - 2022-12-02
+------------------
+
+Changes
+    * Added support for Click `8.1+ <https://click.palletsprojects.com/en/8.1.x/changes/#version-8-1-0>`_
+    * Fixed ``pathtopdf()`` bug when ``self.pdf_file`` is ``None``
+    * Removed deprecated ``add_stylesheet()`` in favor of ``add_css_file()``
+
 1.1.3 - 2019-07-18
 ------------------
 
